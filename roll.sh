@@ -80,19 +80,17 @@ import time
 fps = 25; time_per_frame = 1.0 / fps
 buf = ''; frame = 0; next_frame = 0
 begin = time.time()
-try:
-  for i, line in enumerate(sys.stdin):
-    if i % 32 == 0:
-      frame += 1
-      sys.stdout.write(buf); buf = ''
-      elapsed = time.time() - begin
-      repose = (frame * time_per_frame) - elapsed
-      if repose > 0.0:
-        time.sleep(repose)
-      next_frame = elapsed / time_per_frame
-    if frame >= next_frame:
-      buf += line
-except KeyboardInterrupt:
-  pass
+
+for i, line in enumerate(sys.stdin):
+  if i % 32 == 0:
+    frame += 1
+    sys.stdout.write(buf); buf = ''
+    elapsed = time.time() - begin
+    repose = (frame * time_per_frame) - elapsed
+    if repose > 0.0:
+      time.sleep(repose)
+    next_frame = elapsed / time_per_frame
+  if frame >= next_frame:
+    buf += line
 EOF
 ) < <(obtainium $video | bunzip2 -q 2> /dev/null)
